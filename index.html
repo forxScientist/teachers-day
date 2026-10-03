@@ -70,16 +70,57 @@ footer{text-align:center;color:var(--dim);padding:3rem 1rem 4rem;font-size:.9rem
 .pt{position:absolute;top:-24px;width:10px;height:14px;border-radius:50% 0 50% 50%;opacity:.85;animation:fall var(--d) linear forwards}
 @keyframes fall{to{transform:translate(var(--dx),112vh) rotate(600deg)}}
 canvas#fw{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+#spot{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(420px circle at var(--mx,50%) var(--my,30%),rgba(94,242,255,.12),transparent 60%)}
+#prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:70;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--gold))}
+.aurora{position:fixed;inset:-20%;z-index:0;filter:blur(70px);pointer-events:none}
+.aurora i{position:absolute;border-radius:50%;width:45vmax;height:45vmax;animation:drift 18s ease-in-out infinite alternate}
+.aurora i:nth-child(1){background:rgba(94,242,255,.2);left:-5%;top:-10%}
+.aurora i:nth-child(2){background:rgba(255,79,216,.18);right:-5%;top:20%;animation-duration:24s}
+.aurora i:nth-child(3){background:rgba(138,123,255,.18);left:25%;bottom:-20%;animation-duration:30s}
+@keyframes drift{to{transform:translate(8vw,6vh) scale(1.2)}}
+.rv{opacity:0;transform:translateY(34px) scale(.98);filter:blur(6px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1),filter .9s;transition-delay:var(--dl,0s)}
+.rv.in{opacity:1;transform:none;filter:none}
+section h2{background:linear-gradient(100deg,#fff 20%,var(--cyan),var(--pink),#fff 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:-250% 0}}
+.old{height:1.5em;color:var(--dim);text-decoration:line-through;font-family:'Unbounded';font-size:1.1rem;opacity:0;transition:opacity .4s}
+.old.on{opacity:1}
+.deal{display:inline-block;padding:.3rem .8rem;border-radius:99px;background:linear-gradient(90deg,var(--pink),var(--gold));color:#1a0b1c;font-weight:700;font-size:.85rem;opacity:0;transform:scale(.6);min-height:1.6em}
+.deal.on{animation:badge .6s cubic-bezier(.3,1.6,.4,1) forwards}
+@keyframes badge{to{opacity:1;transform:scale(1) rotate(-3deg)}}
+.price.shake{animation:shake .5s}
+@keyframes shake{20%{transform:translateX(-10px) rotate(-2deg)}40%{transform:translateX(10px) rotate(2deg)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+#deco{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.sh{position:absolute;will-change:transform}
+.sh .in{animation:flo 20s ease-in-out infinite alternate;opacity:.3;filter:drop-shadow(0 0 8px rgba(94,242,255,.4))}
+.sh .in svg{display:block;animation:spin 25s linear infinite}
+.sh .ic{opacity:.32;filter:blur(.5px)}
+@keyframes flo{from{transform:translateY(0) rotate(-8deg)}to{transform:translateY(-70px) rotate(8deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orbit{position:fixed;left:50%;top:50%;width:min(92vmin,780px);height:min(92vmin,780px);transform:translate(-50%,-50%);z-index:1;pointer-events:none}
+.orbit i{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(94,242,255,.28);animation:spin 60s linear infinite}
+.orbit i:nth-child(2){inset:12%;border-color:rgba(255,79,216,.28);animation-direction:reverse;animation-duration:45s}
+.orbit i:nth-child(3){inset:26%;border:1px solid rgba(255,211,107,.2);animation-duration:80s}
+.orbit i::after{content:'';position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.orbit i:nth-child(2)::after{background:var(--pink);box-shadow:0 0 14px var(--pink)}
+.orbit i:nth-child(3)::after{background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.ghost{transition:transform .2s}
+.card.shake{animation:shake .5s}
+.price.last{color:#3df5a6;text-shadow:0 0 28px rgba(61,245,166,.6)}
 #mute{position:fixed;right:14px;top:14px;z-index:60;width:46px;height:46px;border-radius:50%;border:1px solid rgba(94,242,255,.5);background:var(--panel);backdrop-filter:blur(8px);font-size:1.3rem;cursor:pointer;color:var(--ink)}
 #hint{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;padding:.5rem 1rem;border-radius:99px;background:var(--panel);border:1px solid rgba(94,242,255,.35);font-size:.9rem;pointer-events:none;animation:hint 1.6s ease-in-out infinite alternate}
 #hint.gone{display:none}
 @keyframes hint{to{transform:translateX(-50%) translateY(-5px)}}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
 </style>
 </head>
 <body>
 <canvas id="fx"></canvas>
+<div class="aurora"><i></i><i></i><i></i></div>
 <div class="grid"></div>
+<div id="spot"></div>
+<div id="prog"></div>
+<div class="orbit"><i></i><i></i><i></i></div>
+<div id="deco"></div>
 <div id="garden"></div>
 <div id="sky"></div>
 <canvas id="fw"></canvas>
@@ -102,11 +143,11 @@ canvas#fw{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events
     <p class="lead">  You were more than just a teacher to us; you were someone we could look up to, learn from, and genuinely appreciate. Happy teacher's day ma'am vic...</p>
     <p class="lead">  Na miss lng namo mag buhat-buhat ug letter sauna ky wala nay letter-letter sa college nag teacher's day, boring kaayu AHAHAHAHAH</p>
     <div class="chips">
-      <span class="chip">Patience: unlimited</span>
-      <span class="chip">Wisdom: loading... complete</span>
-      <span class="chip">Red pen: legendary</span>
-      <span class="chip">Impact: lifelong</span>
-      <span class="chip">Synergy: Echomancer + angela AHAHAHAHAH</span>
+      <span class="chip">#Best teacher</span>
+      <span class="chip">#Simply Awesome</span>
+      <span class="chip">#Unforgettable</span>
+      <span class="chip">#Lasting Legacy</span>
+      <span class="chip">#Spammer: Echomancer + angela AHAHAHAHAH</span>
     </div>
   </section>
 
@@ -122,7 +163,9 @@ canvas#fw{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Surprise">
   <div class="card" id="pay">
     <h3>Surprise Premium</h3>
-    <div class="price">$500<small> / month</small></div>
+    <div class="old" id="old">$500</div>
+    <div class="price" id="priceBox"><span id="amt">$500</span><small> / month</small></div>
+    <div class="deal" id="deal"></div>
     <ul>
       <li>Full access to one (1) surprise</li>
       <li>Priority gratitude, 24/7</li>
@@ -134,7 +177,7 @@ canvas#fw{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events
   <div class="card hide" id="c1">
     <div class="big">🤨</div>
     <h3>Are you sure you want the surprise?</h3>
-    <p class="lead" style="margin-top:.8rem;font-size:1rem">Please think carefully. $500 is a lot of money.</p>
+    <p class="lead" id="c1txt" style="margin-top:.8rem;font-size:1rem">Please think carefully. $500 is a lot of money.</p>
     <button class="btn" id="c1yes">Yes, I'm sure</button><br>
     <button class="ghost" id="c1no">Wait, go back</button>
   </div>
@@ -165,8 +208,8 @@ canvas#fw{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events
 
 <script>
 /* ===== EDIT THESE ===== */
-const TEACHER = "Ma'am";            // e.g. "Ma'am Santos"
-const FROM = "Your Weird Student";        // your name
+const TEACHER = "Ma'am";            
+const FROM = "Your Weird Student";        
 // Optional: your own song instead of the built-in music, e.g. "music/song.mp3"
 const MUSIC_FILE = "background-music.mp3";
 // Photos shown inside the balloons. Put the images in a "photos" folder
@@ -179,11 +222,13 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* --- Background starfield with connecting lines --- */
 (function(){
   const c = document.getElementById('fx'), x = c.getContext('2d');
-  let W,H,pts=[];
+  let W,H,pts=[],shoot=[];
   function size(){W=c.width=innerWidth;H=c.height=innerHeight;pts=Array.from({length:Math.min(90,Math.floor(W*H/16000))},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3}))}
   size();addEventListener('resize',size);
   (function loop(){
     x.clearRect(0,0,W,H);
+    if(!reduce&&Math.random()<.012)shoot.push({x:Math.random()*W*.8,y:Math.random()*H*.4,l:1});
+    shoot=shoot.filter(s=>{s.x+=11;s.y+=5;s.l-=.02;if(s.l<=0)return false;const g=x.createLinearGradient(s.x,s.y,s.x-90,s.y-41);g.addColorStop(0,`rgba(255,255,255,${s.l})`);g.addColorStop(1,'rgba(94,242,255,0)');x.strokeStyle=g;x.lineWidth=2;x.beginPath();x.moveTo(s.x,s.y);x.lineTo(s.x-90,s.y-41);x.stroke();return true});
     for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;x.fillStyle='rgba(94,242,255,.7)';x.fillRect(p.x,p.y,2,2)}
     for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
       const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
@@ -323,14 +368,37 @@ const show = id => ['pay','c1','c2','proc','done'].forEach(k=>$(k).classList.tog
 $('open').onclick = ()=>{show('pay');$('modal').classList.add('open');$('sub').focus()};
 $('close').onclick = ()=>$('modal').classList.remove('open');
 $('again').onclick = ()=>{burst();release(14)};
-$('no').onclick = ()=>{show('done');burst();release(18)};
-$('sub').onclick = ()=>{sfxWarn();show('c1')};
+const STEPS=[500,400,300,200,100,1], money=n=>'$'+n;
+const DEALS=['','20% OFF, just for you ✨','40% OFF, teacher discount 🍎','60% OFF, insane deal!',"80% OFF, I'm losing money 😭",'99.8% OFF, FINAL OFFER 🔥'];
+let si=0;
+function roll(from,to){const t0=performance.now();(function f(t){const k=Math.min((t-t0)/700,1),e=1-Math.pow(1-k,3);$('amt').textContent=money(Math.round(from+(to-from)*e));if(k<1)requestAnimationFrame(f)})(t0)}
+function discount(){
+  const from=STEPS[si],to=STEPS[++si];
+  $('old').textContent=money(from);$('old').classList.add('on');
+  roll(from,to);
+  const pb=$('priceBox');pb.classList.remove('shake');void pb.offsetWidth;pb.classList.add('shake');pb.classList.toggle('last',to===1);
+  const dl=$('deal');dl.textContent=DEALS[si];dl.classList.remove('on');void dl.offsetWidth;dl.classList.add('on');
+  $('sub').textContent='Subscribe for '+money(to);
+  $('no').textContent=to===1?'I still say no thanks 😤':'No thanks, still too expensive';
+  sfxDing();const r=pb.getBoundingClientRect();burst(r.left+r.width/2,r.top+30,40,['#ffd36b','#ff4fd8','#fff']);
+}
+const NOPE=['Sorry, this button is broken 😈','Nice try! 😏','Button not working... 🙃','Only Subscribe works now 💸','Still no. Press Subscribe! 😇'];
+let nope=0;
+$('no').onclick = ()=>{
+  if(si<STEPS.length-1){discount();return}
+  const c=$('pay');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');
+  $('no').textContent=NOPE[nope++%NOPE.length];sfxWarn();
+};
+$('no').addEventListener('pointerenter',()=>{
+  if(si===STEPS.length-1)$('no').style.transform=`translate(${(Math.random()-.5)*160}px,${(Math.random()-.5)*50}px)`;
+});
+$('sub').onclick = ()=>{sfxWarn();$('c1txt').textContent=STEPS[si]===1?'Please think carefully. That is a whole dollar.':'Please think carefully. '+money(STEPS[si])+' is a lot of money.';show('c1')};
 $('c1yes').onclick = ()=>{sfxWarn();show('c2')};
 $('c1no').onclick = ()=>show('pay');
 $('c2no').onclick = ()=>show('pay');
 $('c2yes').onclick = ()=>{
   show('proc');
-  const msgs=['Contacting your bank...','Verifying that you are definitely a teacher...','Charging $500 to your card...','Wait, are you sure about this?','Almost done... 99%...'];
+  const msgs=['Contacting your bank...','Verifying that you are definitely a teacher...','Charging '+money(STEPS[si])+' to your card...','Wait, are you sure about this?','Almost done... 99%...'];
   let p=0,i=0;
   const t=setInterval(()=>{
     p=Math.min(p+Math.random()*7+3,99);
@@ -369,6 +437,56 @@ function fwLoop(){
 function finale(){for(let i=0;i<7;i++)setTimeout(rocket,i*260)}
 if(!reduce)setTimeout(()=>{rocket();setInterval(()=>{if(!document.hidden)rocket()},2800)},3800);
 
+/* --- Polish: spotlight, progress bar, scroll reveal, 3D tilt, magnetic button --- */
+addEventListener('pointermove',e=>{const d=document.documentElement.style;d.setProperty('--mx',e.clientX+'px');d.setProperty('--my',e.clientY+'px')});
+addEventListener('scroll',()=>{const h=document.documentElement;$id('prog').style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+'%'},{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.classList.add('in');io.unobserve(el);setTimeout(()=>{el.classList.remove('rv','in');el.style.removeProperty('--dl')},1400)}}),{threshold:.2});
+document.querySelectorAll('section h2,section p.lead,.chip,.cta .btn').forEach((el,i)=>{el.classList.add('rv');el.style.setProperty('--dl',(i%5)*.12+'s');io.observe(el)});
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(700px) rotateY(${x*14}deg) rotateX(${-y*14}deg)`});
+  c.addEventListener('pointerleave',()=>c.style.transform='');
+});
+(function(){const b=$id('open'),w=b.parentElement;
+  w.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);b.style.transform=Math.hypot(dx,dy)<170?`translate(${dx*.25}px,${dy*.25}px) scale(1.05)`:''});
+  w.addEventListener('pointerleave',()=>b.style.transform='');
+})();
+
+/* --- Background decor: floating school icons + spinning shapes with parallax --- */
+(function(){
+  const L=$id('deco'),k=innerWidth<600?.55:1,items=[];
+  const icons=['📚','✏️','🍎','🎓','💡','🔬','🎨','🧪','📐','⭐','🖍️','📝','🔭','🧠'];
+  const cols=['#5ef2ff','#ff4fd8','#ffd36b','#8a7bff'];
+  const shp=[
+    '<circle cx="20" cy="20" r="16"/>',
+    '<polygon points="20,4 36,34 4,34"/>',
+    '<polygon points="20,3 34,11 34,29 20,37 6,29 6,11"/>',
+    '<path d="M20 5v30M5 20h30"/>',
+    '<rect x="8" y="8" width="24" height="24"/>',
+    '<circle cx="20" cy="20" r="16"/><circle cx="20" cy="20" r="8"/>'
+  ];
+  function add(html,cls,depth){
+    const w=document.createElement('div'),i=document.createElement('div');
+    w.className='sh';w.dataset.d=depth;w.style.cssText=`left:${Math.random()*94}%;top:${Math.random()*96}%`;
+    i.className='in '+cls;i.innerHTML=html;
+    i.style.animationDuration=(14+Math.random()*16)+'s';i.style.animationDelay=(-Math.random()*20)+'s';
+    w.appendChild(i);L.appendChild(w);items.push(w);return i;
+  }
+  icons.slice(0,Math.ceil(icons.length*k)).forEach(ic=>{const i=add(ic,'ic',.2+Math.random()*.8);i.style.fontSize=(22+Math.random()*30)+'px'});
+  for(let n=0;n<Math.round(16*k);n++){
+    const sz=26+Math.random()*50,c=cols[n%4];
+    const i=add(`<svg width="${sz}" height="${sz}" viewBox="0 0 40 40" fill="none" stroke="${c}" stroke-width="1.5" style="animation-duration:${20+Math.random()*30}s;animation-direction:${n%2?'reverse':'normal'}">${shp[n%shp.length]}</svg>`,'',.3+Math.random()*.9);
+    i.style.filter=`drop-shadow(0 0 8px ${c})`;
+  }
+  let mx=0,my=0,pend=false;
+  function upd(){
+    pend=false;const sy=scrollY;
+    items.forEach(w=>{const d=+w.dataset.d;w.style.transform=`translate3d(${-mx*60*d}px,${-my*60*d-sy*.18*d}px,0)`});
+  }
+  const q=()=>{if(!pend){pend=true;requestAnimationFrame(upd)}};
+  addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;q()});
+  addEventListener('scroll',q,{passive:true});
+})();
+
 /* --- Sound: built-in music + sound effects (no files needed) --- */
 let AC,master,musicG,nbuf,muted=false,started=false,bg,nextBar=0,bar=0;
 function audio(){
@@ -395,12 +513,13 @@ function sfxPop(){if(muted)return;audio();const t=AC.currentTime;hiss(t,.12,.5,1
 function sfxConfetti(){if(muted)return;audio();const t=AC.currentTime;hiss(t,.4,.7,600);tone(140,t,.2,'sine',.5);[784,988,1175,1568,1976].forEach((f,i)=>tone(f,t+.08+i*.07,.35,'triangle',.18))}
 function sfxWhoosh(){if(muted||!started)return;audio();hiss(AC.currentTime,.4,.1,3000)}
 function sfxBoom(){if(muted||!started)return;audio();const t=AC.currentTime;hiss(t,.5,.3,250);tone(70,t,.4,'sine',.3);for(let i=1;i<5;i++)hiss(t+.1+i*.07,.06,.12,4000)}
+function sfxDing(){if(muted||!started)return;audio();const t=AC.currentTime;[1047,1319,1568].forEach((f,i)=>tone(f,t+i*.07,.3,'triangle',.2))}
 function sfxWarn(){if(muted)return;audio();const t=AC.currentTime;tone(196,t,.25,'square',.1);tone(147,t+.22,.45,'square',.1)}
 
 const CH=[[261.63,329.63,392],[196,246.94,293.66],[220,261.63,329.63],[174.61,220,261.63]];
 const PENT=[523.25,587.33,659.25,783.99,880];
 function schedule(){
-  while(nextBar<AC.currentTime+1.2){
+  while(nextBar<AC.currentTime+6){
     const c=CH[bar%4],b=.6;
     c.forEach(f=>tone(f,nextBar,b*4,'triangle',.05,musicG));
     tone(c[0]/2,nextBar,b*2,'sine',.16,musicG);tone(c[0]/2,nextBar+b*2,b*2,'sine',.14,musicG);
@@ -412,15 +531,26 @@ function schedule(){
     nextBar+=b*4;bar++;
   }
 }
+function startSynth(){nextBar=AC.currentTime+.1;schedule();setInterval(schedule,400)}
 function startMusic(){
   if(started)return;started=true;
   document.getElementById('hint').classList.add('gone');
   audio();
-  if(MUSIC_FILE){bg=new Audio(MUSIC_FILE);bg.loop=true;bg.volume=.5;bg.muted=muted;bg.play().catch(()=>{});return}
-  nextBar=AC.currentTime+.1;schedule();setInterval(schedule,400);
+  if(MUSIC_FILE){
+    bg=new Audio(MUSIC_FILE);bg.loop=true;bg.volume=.5;bg.muted=muted;
+    bg.addEventListener('error',()=>{bg=null;startSynth()});
+    bg.play().catch(()=>{});
+    return;
+  }
+  startSynth();
 }
-addEventListener('pointerdown',e=>{if(!e.target.closest('#mute'))startMusic()});
-addEventListener('keydown',()=>startMusic());
+function keepAlive(){
+  if(AC&&AC.state!=='running')AC.resume();
+  if(bg&&bg.paused&&!muted)bg.play().catch(()=>{});
+}
+addEventListener('pointerdown',e=>{if(e.target.closest('#mute'))return;started?keepAlive():startMusic()});
+addEventListener('keydown',()=>started?keepAlive():startMusic());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&started)keepAlive()});
 document.getElementById('mute').onclick=()=>{
   const b=document.getElementById('mute');
   if(!started){startMusic();return}
