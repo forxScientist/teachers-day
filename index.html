@@ -69,7 +69,7 @@ footer{text-align:center;color:var(--dim);padding:3rem 1rem 4rem;font-size:.9rem
 @keyframes bob{from{transform:translateX(-12px) rotate(-5deg)}to{transform:translateX(12px) rotate(5deg)}}
 .pt{position:absolute;top:-24px;width:10px;height:14px;border-radius:50% 0 50% 50%;opacity:.85;animation:fall var(--d) linear forwards}
 @keyframes fall{to{transform:translate(var(--dx),112vh) rotate(600deg)}}
-canvas#fw{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+canvas#fw{position:fixed;inset:0;width:100%;height:100%;z-index:45;pointer-events:none}
 #spot{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(420px circle at var(--mx,50%) var(--my,30%),rgba(94,242,255,.12),transparent 60%)}
 #prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:70;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--gold))}
 .aurora{position:fixed;inset:-20%;z-index:0;filter:blur(70px);pointer-events:none}
@@ -103,6 +103,46 @@ section h2{background:linear-gradient(100deg,#fff 20%,var(--cyan),var(--pink),#f
 .orbit i::after{content:'';position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
 .orbit i:nth-child(2)::after{background:var(--pink);box-shadow:0 0 14px var(--pink)}
 .orbit i:nth-child(3)::after{background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.scratch{position:relative;width:min(340px,100%);height:190px;margin:1.5rem auto 0;border-radius:18px;overflow:hidden;border:1px solid rgba(255,211,107,.5);box-shadow:0 0 40px rgba(255,211,107,.2)}
+.prize{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,#2a1650,#0b1030);font-family:'Unbounded';font-weight:800;font-size:1.25rem;text-align:center;padding:1rem;gap:.4rem}
+.prize small{font:400 .82rem 'Space Grotesk',sans-serif;color:#c9d6f5}
+.scratch canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;transition:opacity .8s}
+.scratch.done canvas{opacity:0;pointer-events:none}
+#certc,#certshow{width:min(100%,640px);height:auto;display:block;margin:1rem auto 1.4rem;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px rgba(255,211,107,.18);transition:transform .15s}
+@keyframes heart{to{transform:translate(var(--dx),-130px) scale(1.7) rotate(20deg);opacity:0}}
+.rcard{position:relative;background:var(--panel);border:1px solid rgba(255,211,107,.45);border-radius:18px;padding:1.4rem 1.4rem 1.6rem;backdrop-filter:blur(8px);box-shadow:0 0 40px rgba(255,211,107,.12);overflow:hidden}
+.rrow{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.75rem 0;border-bottom:1px dashed rgba(255,255,255,.14);opacity:0}
+.rrow b{font-family:'Unbounded';font-size:1.4rem;color:#3df5a6}
+.rrow b.f{color:#ff6b6b}
+.rrow small{display:block;color:var(--dim);font-size:.78rem}
+.rcard.on .rrow{animation:rin .6s calc(var(--i)*.4s) forwards}
+@keyframes rin{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}
+.final{margin-top:1.1rem;text-align:center;font-family:'Unbounded';font-size:1rem;color:var(--gold);opacity:0}
+.rcard.on .final{animation:rin .6s 2.2s forwards}
+.stamp{position:absolute;right:6%;top:40%;border:4px solid var(--pink);color:var(--pink);font-family:'Unbounded';font-weight:800;font-size:clamp(.9rem,3.4vw,1.4rem);padding:.35rem .8rem;border-radius:10px;opacity:0;transform:rotate(-14deg);background:rgba(5,7,22,.55)}
+.rcard.on .stamp{animation:slam .5s 2.7s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes slam{0%{opacity:0;transform:rotate(-14deg) scale(3.2)}100%{opacity:.95;transform:rotate(-14deg) scale(1)}}
+.sign{margin-top:1.6rem;font-family:'Unbounded';font-size:1.1rem;color:var(--gold);text-align:center}
+.minfo{color:var(--dim);margin:.4rem 0 1rem;font-size:.95rem}
+.ggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;max-width:560px;margin:0 auto 1.2rem}
+.gc{position:relative;aspect-ratio:1;border-radius:16px;border:1px solid rgba(94,242,255,.5);background:linear-gradient(145deg,rgba(94,242,255,.2),rgba(255,79,216,.2));font-size:clamp(1.6rem,7vw,2.6rem);cursor:pointer;color:var(--ink);padding:0;overflow:hidden;transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.gc:hover{transform:translateY(-4px) rotate(-2deg);box-shadow:0 0 22px rgba(94,242,255,.45)}
+.gc.done{border:2px solid #3df5a6;box-shadow:0 0 18px rgba(61,245,166,.5)}
+.gc.done img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gc.done::after{content:'✓';position:absolute;right:5px;top:4px;font-size:.85rem;background:#3df5a6;color:#042;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+.gflip{width:min(260px,64vw);aspect-ratio:1;margin:0 auto 1rem;perspective:800px;position:relative}
+.gflip>div{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .8s cubic-bezier(.3,1.3,.4,1);overflow:hidden}
+.gf{display:flex;align-items:center;justify-content:center;font-size:5rem;background:linear-gradient(145deg,rgba(94,242,255,.3),rgba(255,79,216,.3));border:1px solid rgba(94,242,255,.6)}
+.gb{transform:rotateY(180deg);border:2px solid var(--gold);background:var(--panel)}
+.gb img{width:100%;height:100%;object-fit:cover;display:block}
+.gflip.on .gf{transform:rotateY(-180deg)}
+.gflip.on .gb{transform:rotateY(0)}
+.gp{display:none}
+.gp.show{display:block;opacity:0;animation:in .5s forwards}
+#gin{width:100%;padding:.9rem 1rem;border-radius:12px;border:1px solid rgba(94,242,255,.5);background:rgba(255,255,255,.06);color:var(--ink);font:inherit;font-size:1rem;margin-bottom:.9rem;text-align:center}
+#gin:focus{outline:2px solid var(--pink)}
+#gwin{background:rgba(3,4,14,.5)}
+#sky.hush .bl{pointer-events:none;opacity:.15;transition:opacity .4s}
 .ghost{transition:transform .2s}
 .card.shake{animation:shake .5s}
 .price.last{color:#3df5a6;text-shadow:0 0 28px rgba(61,245,166,.6)}
@@ -136,7 +176,7 @@ section h2{background:linear-gradient(100deg,#fff 20%,var(--cyan),var(--pink),#f
   </header>
 
   <section>
-    <h2>You are the first line of code in every career.</h2>
+    <h2>You taught us more than lessons.</h2>
     <p class="lead">  Even though we're no longer your student, we still remember the things you taught us and the way you guided us.</p>
     <p class="lead">  Looking back, it really feels good to remember those days when you were our teacher in high school. We had so many fun moments together—the jokes, the laughter, the random conversations, and the simple moments we shared as a class.</p>
     <p class="lead">  Back then, we didn’t realize how special those moments were. Now that we’re in college and busy with our own lives, we sometimes realize that we can’t experience that same kind of joy and bonding anymore. Things are just different now.</p>
@@ -149,6 +189,42 @@ section h2{background:linear-gradient(100deg,#fff 20%,var(--cyan),var(--pink),#f
       <span class="chip">#Lasting Legacy</span>
       <span class="chip">#Spammer: Echomancer + angela AHAHAHAHAH</span>
     </div>
+  </section>
+
+  <section id="rc">
+    <h2>Report card for pioneer's favorite adviser</h2>
+    <div class="rcard">
+      <div class="rrow" style="--i:0"><span>Kindness</span><b>A+</b></div>
+      <div class="rrow" style="--i:1"><span>Patience with our noise</span><b>A+</b></div>
+      <div class="rrow" style="--i:2"><span>Making class fun</span><b>A+</b></div>
+      <div class="rrow" style="--i:3"><span>Guiding us in life</span><b>A+</b></div>
+      <div class="rrow" style="--i:4"><span>Assignments and homeworks<small>(daghan kaayu hahaha 😂)</small></span><b class="f">F</b></div>
+      <div class="final">OVERALL: OUTSTANDING</div>
+      <div class="stamp">BEST ADVISER</div>
+    </div>
+  </section>
+
+  <section class="cta" id="game">
+    <h2>Guess who: Kinsa ni sila ma'am!</h2>
+    <p class="lead">Pick any card, watch it flip, then guess who is in the photo. 😄</p>
+    <div class="minfo" id="minfo"></div>
+    <div class="ggrid" id="ggrid"></div>
+    <button class="ghost" id="greset">Restart game</button>
+  </section>
+
+  <section class="cta" id="scr">
+    <h2>Scratch for your real gift</h2>
+    <p class="lead">Use your finger or mouse. Scratch hard!</p>
+    <div class="scratch"><div class="prize">🎁<span>At dahil maswerte ka!</span><small>Libreha mi puhon ma'am😄</small></div><canvas id="scrc"></canvas></div>
+  </section>
+
+  <section class="cta" id="cert">
+    <h2>An official award</h2>
+    <canvas id="certc" width="900" height="620"></canvas>
+    <img id="certshow" alt="Certificate" style="display:none">
+    <button class="btn" id="dl">Download certificate</button>
+    <p class="lead" id="dlnote" hidden style="font-size:.95rem;margin-top:1.2rem">If nothing downloaded, press and hold the picture below, then choose "Save image".</p>
+    <img id="certimg" alt="Certificate of Awesomeness" hidden style="width:min(100%,520px);border-radius:12px;margin:0 auto">
   </section>
 
   <section class="cta">
@@ -198,11 +274,36 @@ section h2{background:linear-gradient(100deg,#fff 20%,var(--cyan),var(--pink),#f
     <h3>JUST KIDDING!</h3>
     <p class="lead" style="margin-top:.8rem">Your surprise is completely free, ma'am. It was never going to cost a thing.</p>
     <p class="lead">The real gift: sincere thanks for everything you do. You changed our lives, and no price could ever cover that.</p>
-    <button class="btn" id="again" style="margin-top:.6rem">More confetti!</button><br>
+    <button class="btn" id="again" style="margin-top:.6rem">TAP-TAP!</button><br>
     <button class="ghost" id="close">Close</button>
   </div>
 </div>
 
+<div class="modal" id="gmodal" role="dialog" aria-modal="true" aria-label="Guess who">
+  <div class="card" id="gcard">
+    <div class="gflip" id="gflip"><div class="gf" id="gfe"></div><div class="gb" id="gbi"></div></div>
+    <div class="gp" id="gask">
+      <p class="lead" style="margin:.4rem 0 .8rem">Who are they, ma'am?</p>
+      <input id="gin" type="text" maxlength="60" placeholder="Type your guess..." autocomplete="off">
+      <button class="btn" id="gsub">Submit guess</button><br>
+      <button class="ghost" id="gx">Back to cards</button>
+    </div>
+    <div class="gp" id="gres">
+      <h3 id="gmsg"></h3>
+      <p class="lead" id="gnote" style="font-size:.95rem;margin:.5rem 0 1rem"></p>
+      <button class="btn" id="gnext">Next card</button>
+    </div>
+  </div>
+</div>
+<div class="modal" id="gwin" role="dialog" aria-modal="true" aria-label="Congratulations">
+  <div class="card">
+    <div class="big">🏆🎉</div>
+    <h3>CONGRATULATIONS!</h3>
+    <p class="lead" style="margin-top:.8rem">I know ma'am that you will never forget us AHAHAH 😂❤️</p>
+    <button class="btn" id="gagain">Play again</button><br>
+    <button class="ghost" id="gclose">Close</button>
+  </div>
+</div>
 <button id="mute" aria-label="Turn music on or off">🔊</button>
 <div id="hint">🎵 Tap anywhere to start the music</div>
 
@@ -215,6 +316,14 @@ const MUSIC_FILE = "background-music.mp3";
 // Photos shown inside the balloons. Put the images in a "photos" folder
 // next to index.html, then list them here, e.g. ["photos/t1.jpg","photos/t2.jpg"]
 const PHOTOS = ["bek.png", "vic4.png", "vicech.png", "vicjapon.png", "vicni.png", "angela.png", "aw.png", "bekag.png", "newbek.png" ];
+// Photos of your classmates for the guessing game (put the files next to index.html).
+// Leave the list empty to use the PHOTOS list instead.
+const CLASSMATES = ["jayver_jemrex_clair.png","jeremy_anna.png","crissa_jessa_lheamae.png","DCjane_Apriliza_Shainna_Dhia.png","MarkNhel_Jose_Andrian.png","Reymark_jhonRey_Rudy_fritz.png","Marvin_Jerrick.png","jemrex_arven.png","jerald_gracel_reagin.png","jasmine_Liezel.png","Merly_Joyce.png","sharlou_Jessa.png"];
+// true = after each guess, softly show the real names from the file name
+const REVEAL_NAMES = false;
+// Your own certificate (e.g. made in Canva). Put the PNG/JPG next to index.html.
+// If the file is missing, the site draws a certificate automatically instead.
+const CERT_IMAGE = "certificate.png";
 /* ====================== */
 document.getElementById('forName').textContent = `Dear ${TEACHER}, from ${FROM}`;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -441,7 +550,7 @@ if(!reduce)setTimeout(()=>{rocket();setInterval(()=>{if(!document.hidden)rocket(
 addEventListener('pointermove',e=>{const d=document.documentElement.style;d.setProperty('--mx',e.clientX+'px');d.setProperty('--my',e.clientY+'px')});
 addEventListener('scroll',()=>{const h=document.documentElement;$id('prog').style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+'%'},{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.classList.add('in');io.unobserve(el);setTimeout(()=>{el.classList.remove('rv','in');el.style.removeProperty('--dl')},1400)}}),{threshold:.2});
-document.querySelectorAll('section h2,section p.lead,.chip,.cta .btn').forEach((el,i)=>{el.classList.add('rv');el.style.setProperty('--dl',(i%5)*.12+'s');io.observe(el)});
+document.querySelectorAll('section h2,section p.lead,.chip,.cta .btn,.sign').forEach((el,i)=>{el.classList.add('rv');el.style.setProperty('--dl',(i%5)*.12+'s');io.observe(el)});
 document.querySelectorAll('.card').forEach(c=>{
   c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(700px) rotateY(${x*14}deg) rotateX(${-y*14}deg)`});
   c.addEventListener('pointerleave',()=>c.style.transform='');
@@ -487,6 +596,144 @@ document.querySelectorAll('.card').forEach(c=>{
   addEventListener('scroll',q,{passive:true});
 })();
 
+/* --- Extra features: report card, scratch card, certificate, tap hearts --- */
+(function(){
+  const rc=document.querySelector('.rcard');
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){rc.classList.add('on');setTimeout(sfxPop,2700);o.disconnect()}},{threshold:.4}).observe(rc);
+})();
+
+(function(){
+  const grid=$id('ggrid'),info=$id('minfo');
+  const emo=['🦄','🌈','🍕','🚀','🎈','🍩','⚡','🎸','🐱','🌻','🍉','🎲'];
+  const pool=(CLASSMATES.length?CLASSMATES:PHOTOS).slice(0,12);
+  const items=pool.length?pool:emo.slice(0,6);
+  const OK=["Answer saved! ✍️","Noted, ma'am! 📝","Thanks for your guess! 😄","Locked in! 🔒","Got it, ma'am! 👍","Guess received! 📬"];
+  const NOTE=["There are no wrong answers here, ma'am.","Every guess counts. 😄","Let's see who's next!"];
+  const pick=a=>a[Math.floor(Math.random()*a.length)];
+  const isImg=v=>/\.(png|jpe?g|webp|gif)$/i.test(v);
+  const nameOf=f=>f.replace(/^.*\//,'').replace(/\.\w+$/,'').split('_').join(', ');
+  let done=0,cur=null,total=items.length;
+  const photoHTML=v=>isImg(v)?`<img src="${v}" alt="Your students">`:`<div style="display:flex;height:100%;align-items:center;justify-content:center;font-size:5rem">${v}</div>`;
+  const upd=()=>{info.textContent=`Cards opened: ${done} of ${total}`};
+  function build(){
+    grid.innerHTML='';done=0;total=items.length;
+    items.map((v,i)=>({v,e:emo[i%emo.length]})).sort(()=>Math.random()-.5).forEach(o=>{
+      const b=document.createElement('button');b.className='gc';b.textContent=o.e;b.setAttribute('aria-label','Mystery card');
+      b.onclick=()=>open(o,b);grid.appendChild(b);
+    });
+    upd();
+  }
+  function open(o,b){
+    if(b.classList.contains('done'))return;
+    cur={o,b};
+    $id('gfe').textContent=o.e;$id('gbi').innerHTML=photoHTML(o.v);
+    const fl=$id('gflip');fl.classList.remove('on');
+    $id('gask').classList.remove('show');$id('gres').classList.remove('show');
+    const inp=$id('gin');inp.value='';inp.placeholder='Type your guess...';
+    $id('gmodal').classList.add('open');
+    setTimeout(()=>{fl.classList.add('on');sfxPop()},450);
+    setTimeout(()=>{$id('gask').classList.add('show');inp.focus({preventScroll:true})},1100);
+  }
+  function submit(){
+    const inp=$id('gin');
+    if(!inp.value.trim()){const c=$id('gcard');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');inp.placeholder='Type any name, there is no wrong answer 😄';return}
+    $id('gask').classList.remove('show');
+    $id('gmsg').textContent=pick(OK);
+    $id('gnote').textContent=REVEAL_NAMES&&isImg(cur.o.v)?`Fun fact: they are ${nameOf(cur.o.v)}.`:pick(NOTE);
+    $id('gres').classList.add('show');
+    cur.b.classList.add('done');if(isImg(cur.o.v))cur.b.innerHTML=`<img src="${cur.o.v}" alt="">`;
+    done++;upd();
+    $id('gnext').textContent=done>=total?'Finish 🎉':'Next card';
+    sfxDing();burst(innerWidth/2,innerHeight*.3,40,['#ffd36b','#ff4fd8','#3df5a6','#fff']);
+  }
+  function win(){
+    $id('gmodal').classList.remove('open');
+    $id('gwin').classList.add('open');
+    sfxFanfare();setTimeout(sfxApplause,500);burst();release(18);
+  }
+  $id('gsub').onclick=submit;
+  $id('gin').addEventListener('keydown',e=>{if(e.key==='Enter')submit()});
+  $id('gnext').onclick=()=>{if(done>=total)win();else $id('gmodal').classList.remove('open')};
+  $id('gx').onclick=()=>$id('gmodal').classList.remove('open');
+  $id('gagain').onclick=()=>{$id('gwin').classList.remove('open');build()};
+  $id('gclose').onclick=()=>$id('gwin').classList.remove('open');
+  $id('greset').onclick=build;
+  build();
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){items.forEach(f=>{if(isImg(f))new Image().src=f});o.disconnect()}},{rootMargin:'400px'}).observe($id('game'));
+  new IntersectionObserver(es=>$id('sky').classList.toggle('hush',es[0].isIntersecting),{threshold:.1}).observe($id('game'));
+})();
+
+(function(){
+  const box=document.querySelector('.scratch'),c=$id('scrc'),x=c.getContext('2d');
+  let done=false,drawing=false,mv=0;
+  function init(){
+    const r=devicePixelRatio||1;c.width=box.clientWidth*r;c.height=box.clientHeight*r;
+    const g=x.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#c9d1e6');g.addColorStop(.5,'#8e98b5');g.addColorStop(1,'#d8deef');
+    x.fillStyle=g;x.fillRect(0,0,c.width,c.height);
+    x.fillStyle='#4a5370';x.font=`700 ${17*r}px Unbounded, sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillText('SCRATCH HERE',c.width/2,c.height/2);
+    x.globalCompositeOperation='destination-out';
+  }
+  init();
+  function cut(e){const b=c.getBoundingClientRect(),r=c.width/b.width;x.beginPath();x.arc((e.clientX-b.left)*r,(e.clientY-b.top)*r,26*r,0,6.3);x.fill();if(++mv%6===0)check()}
+  function check(){if(done)return;const d=x.getImageData(0,0,c.width,c.height).data;let n=0,t=0;
+    for(let i=3;i<d.length;i+=64){t++;if(d[i]===0)n++}
+    if(n/t>.5){done=true;box.classList.add('done');burst()}}
+  c.addEventListener('pointerdown',e=>{drawing=true;c.setPointerCapture(e.pointerId);cut(e)});
+  c.addEventListener('pointermove',e=>{if(drawing&&!done)cut(e)});
+  addEventListener('pointerup',()=>drawing=false);
+})();
+
+(function(){
+  const c=$id('certc'),x=c.getContext('2d'),W=900,H=620;
+  function draw(){
+    const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0b1030');g.addColorStop(1,'#1f0f40');x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.strokeStyle='#ffd36b';x.lineWidth=6;x.strokeRect(24,24,W-48,H-48);x.strokeStyle='#5ef2ff';x.lineWidth=1.5;x.strokeRect(42,42,W-84,H-84);
+    x.textAlign='center';x.textBaseline='middle';
+    x.fillStyle='#5ef2ff';x.font='500 17px Unbounded, sans-serif';x.fillText("WORLD TEACHERS' DAY  ·  OCTOBER 5, "+new Date().getFullYear(),W/2,100);
+    x.fillStyle='#ffd36b';x.font='800 38px Unbounded, sans-serif';x.fillText('CERTIFICATE',W/2,170);x.fillText('OF AWESOMENESS',W/2,218);
+    x.fillStyle='#c9d6f5';x.font='400 20px Space Grotesk, sans-serif';x.fillText('is proudly presented to',W/2,282);
+    let fs=58;x.font=`800 ${fs}px Unbounded, sans-serif`;while(x.measureText(TEACHER).width>W-200&&fs>20){fs-=2;x.font=`800 ${fs}px Unbounded, sans-serif`}
+    const ng=x.createLinearGradient(200,0,W-200,0);ng.addColorStop(0,'#5ef2ff');ng.addColorStop(.5,'#ffffff');ng.addColorStop(1,'#ff4fd8');x.fillStyle=ng;x.fillText(TEACHER,W/2,350);
+    x.fillStyle='#c9d6f5';x.font='400 20px Space Grotesk, sans-serif';
+    x.fillText('for being the most patient, inspiring and legendary teacher',W/2,420);x.fillText('anyone could ever ask for. Thank you for everything.',W/2,450);
+    x.fillStyle='#ffd36b';x.font='italic 500 26px Space Grotesk, serif';x.fillText('with love, '+FROM,W/2-110,520);
+    x.save();x.translate(W-150,H-130);const sg=x.createRadialGradient(0,0,5,0,0,60);sg.addColorStop(0,'#fff2b8');sg.addColorStop(1,'#d9a520');x.fillStyle=sg;x.beginPath();
+    for(let i=0;i<24;i++){const a=i/24*Math.PI*2,r=i%2?52:60;x.lineTo(Math.cos(a)*r,Math.sin(a)*r)}x.closePath();x.fill();
+    x.fillStyle='#7a5300';x.font='700 40px sans-serif';x.fillText('★',0,3);x.restore();
+  }
+  document.fonts.load('800 20px Unbounded').then(draw,draw);draw();
+  const im=$id('certshow');
+  if(CERT_IMAGE){im.onload=()=>{c.style.display='none';im.style.display='block'};im.src=CERT_IMAGE}
+  const tilt=el=>{
+    el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(900px) rotateY(${px*10}deg) rotateX(${-py*10}deg)`});
+    el.addEventListener('pointerleave',()=>el.style.transform='');
+  };
+  tilt(im);
+  c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(900px) rotateY(${px*10}deg) rotateX(${-py*10}deg)`});
+  c.addEventListener('pointerleave',()=>c.style.transform='');
+  $id('dl').onclick=()=>{
+    if(CERT_IMAGE&&im.style.display==='block'){
+      const a=document.createElement('a');a.href=CERT_IMAGE;a.download=CERT_IMAGE.split('/').pop();
+      document.body.appendChild(a);a.click();a.remove();
+      $id('dlnote').textContent='If nothing downloaded, press and hold the certificate above, then choose "Save image".';
+      $id('dlnote').hidden=false;burst();return;
+    }
+    c.toBlob(b=>{
+      const url=URL.createObjectURL(b),a=document.createElement('a');
+      a.download='certificate-of-awesomeness.png';a.href=url;document.body.appendChild(a);a.click();a.remove();
+      $id('certimg').src=url;$id('certimg').hidden=false;$id('dlnote').hidden=false;
+    },'image/png');
+    burst();
+  };
+})();
+
+addEventListener('pointerdown',e=>{
+  if(e.target.closest('.modal,#mute,button,.scratch,.bl'))return;
+  const h=document.createElement('div');h.textContent=['❤️','💖','✨','🍎','⭐','🎉'][Math.floor(Math.random()*6)];
+  h.style.cssText=`position:fixed;left:${e.clientX-12}px;top:${e.clientY-12}px;font-size:${20+Math.random()*20}px;z-index:55;pointer-events:none;animation:heart 1.4s ease-out forwards;--dx:${(Math.random()-.5)*90}px`;
+  document.body.appendChild(h);setTimeout(()=>h.remove(),1400);
+});
+
 /* --- Sound: built-in music + sound effects (no files needed) --- */
 let AC,master,musicG,nbuf,muted=false,started=false,bg,nextBar=0,bar=0;
 function audio(){
@@ -514,6 +761,8 @@ function sfxConfetti(){if(muted)return;audio();const t=AC.currentTime;hiss(t,.4,
 function sfxWhoosh(){if(muted||!started)return;audio();hiss(AC.currentTime,.4,.1,3000)}
 function sfxBoom(){if(muted||!started)return;audio();const t=AC.currentTime;hiss(t,.5,.3,250);tone(70,t,.4,'sine',.3);for(let i=1;i<5;i++)hiss(t+.1+i*.07,.06,.12,4000)}
 function sfxDing(){if(muted||!started)return;audio();const t=AC.currentTime;[1047,1319,1568].forEach((f,i)=>tone(f,t+i*.07,.3,'triangle',.2))}
+function sfxFanfare(){if(muted||!started)return;audio();const t=AC.currentTime;[[523,0],[659,.15],[784,.3],[1047,.5],[784,.7],[1047,.85],[1319,1.1]].forEach(([f,d])=>{tone(f,t+d,.5,'triangle',.22);tone(f/2,t+d,.5,'sine',.12)})}
+function sfxApplause(){if(muted||!started)return;audio();const t=AC.currentTime;for(let i=0;i<60;i++)hiss(t+Math.random()*2.4,.05+Math.random()*.06,.12+Math.random()*.1,1500+Math.random()*3000)}
 function sfxWarn(){if(muted)return;audio();const t=AC.currentTime;tone(196,t,.25,'square',.1);tone(147,t+.22,.45,'square',.1)}
 
 const CH=[[261.63,329.63,392],[196,246.94,293.66],[220,261.63,329.63],[174.61,220,261.63]];
